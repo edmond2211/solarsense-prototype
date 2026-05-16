@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SolarSense AI — SolarSense</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F3EC;
+    --bg-card: #FFFFFF;
+    --ink: #161616;
+    --ink-soft: #4B4B4B;
+    --ink-mute: #8A8580;
+    --line: #E4DED3;
+    --line-strong: #1F1F1F;
+    --red: #D7202B;          /* SolarSense-style red */
+    --red-deep: #9E1018;
+    --gold: #E8A317;
+    --teal: #0E4D3F;
+    --teal-light: #D7E9E2;
+    --sky: #2B6CB0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .display { font-family: 'Fraunces', serif; font-weight: 600; letter-spacing: -0.01em; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+
+  /* ---------- TOP NAV ---------- */
+  .topbar {
+    background: var(--ink);
+    color: #fff;
+    padding: 12px 0;
+    border-bottom: 1px solid #000;
+  }
+  .topbar-inner { display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-mark {
+    width: 28px; height: 28px;
+    background: var(--red);
+    border-radius: 6px;
+    display: grid; place-items: center;
+    font-family: 'Fraunces', serif; font-weight: 800;
+    font-size: 17px;
+  }
+  .brand-text { font-family: 'Fraunces', serif; font-weight: 600; font-size: 17px; letter-spacing: -0.01em; }
+  .brand-sub { font-size: 11px; color: #BFBFBF; margin-left: 6px; text-transform: uppercase; letter-spacing: 0.12em; }
+  .nav-pills { display: flex; gap: 6px; font-size: 13px; }
+  .pill {
+    padding: 6px 12px; border-radius: 999px;
+    color: #BFBFBF; text-decoration: none;
+    border: 1px solid transparent;
+  }
+  .pill.active { color: #fff; border-color: #2A2A2A; background: #1F1F1F; }
+  .badge {
+    background: var(--gold); color: #1A1A1A;
+    font-size: 10px; font-weight: 700;
+    padding: 3px 8px; border-radius: 4px; letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ---------- SECTION SHELL ---------- */
+  section.screen {
+    padding: 56px 0 80px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .screen-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 18px;
+  }
+  .screen-tag::before {
+    content: ""; width: 24px; height: 1px; background: var(--ink-mute);
+  }
+
+  /* ---------- HERO / SCREEN 1: INPUT ---------- */
+  .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: stretch; }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 64px; line-height: 1.02; letter-spacing: -0.02em;
+    font-weight: 600;
+  }
+  .hero h1 em { font-style: italic; color: var(--red); font-weight: 500; }
+  .hero p.lead {
+    font-size: 17px; color: var(--ink-soft); margin-top: 22px; max-width: 480px;
+  }
+  .stat-row {
+    display: flex; gap: 36px; margin-top: 36px; padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .stat .num {
+    font-family: 'Fraunces', serif; font-size: 32px; font-weight: 600;
+    color: var(--ink); letter-spacing: -0.01em;
+  }
+  .stat .lbl {
+    font-size: 12px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 2px;
+  }
+  .form-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.02), 0 24px 48px -28px rgba(20,20,20,0.18);
+    position: relative;
+  }
+  .form-card::before {
+    content: "";
+    position: absolute;
+    top: -12px; left: 24px;
+    background: var(--gold);
+    color: #1A1A1A; font-weight: 700; font-size: 10px;
+    padding: 4px 10px; border-radius: 4px; letter-spacing: 0.1em;
+  }
+  .form-card h3 {
+    font-family: 'Fraunces', serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;
+  }
+  .form-card .step {
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--ink-mute); margin-bottom: 4px; letter-spacing: 0.08em;
+  }
+  .step-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--red);
+  }
+  .form-grid { display: grid; gap: 18px; margin-top: 22px; }
+  label {
+    display: block; font-size: 12px; color: var(--ink-soft);
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; font-weight: 600;
+  }
+  input.field, select.field {
+    width: 100%; padding: 14px 16px;
+    background: #FAF7F1; border: 1px solid var(--line); border-radius: 10px;
+    font-family: 'Manrope', sans-serif; font-size: 15px;
+    color: var(--ink); outline: none;
+    transition: border-color .15s, background .15s;
+  }
+  input.field:focus { border-color: var(--ink); background: #fff; }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .btn-primary {
+    background: var(--red); color: #fff; border: 0;
+    padding: 16px 22px; border-radius: 10px;
+    font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 15px;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    width: 100%;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    transition: background .15s;
+  }
+  .btn-primary:hover { background: var(--red-deep); }
+  .btn-primary .arrow { font-size: 18px; }
+  .form-fine {
+    margin-top: 14px; font-size: 12px; color: var(--ink-mute);
+    text-align: center;
+  }
+
+  /* ---------- SCREEN 2: ANALYSIS ---------- */
+  .analysis-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 28px; }
+  .map-frame {
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px;
+    overflow: hidden; position: relative; aspect-ratio: 4 / 3;
+  }
+  .map-overlay-top {
+    position: absolute; top: 14px; left: 14px; right: 14px;
+    display: flex; align-items: center; justify-content: space-between;
+    z-index: 3;
+  }
+  .map-chip {
+    background: rgba(22,22,22,0.86); color: #fff;
+    backdrop-filter: blur(6px);
+    padding: 7px 12px; border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .map-chip .dot { width: 8px; height: 8px; border-radius: 50%; background: #2DD66E; box-shadow: 0 0 0 4px rgba(45,214,110,0.18); }
+  .map-svg { width: 100%; height: 100%; display: block; }
+  .map-corner {
+    position: absolute; bottom: 14px; left: 14px;
+    background: rgba(255,255,255,0.94);
+    padding: 10px 14px; border-radius: 8px;
+    font-size: 12px; color: var(--ink-soft);
+    border: 1px solid var(--line);
+  }
+  .map-corner b { font-family: 'Fraunces', serif; font-weight: 600; color: var(--ink); }
+  .ai-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .ai-header {
+    display: flex; align-items: center; gap: 10px;
+    padding-bottom: 14px; border-bottom: 1px solid var(--line);
+  }
+  .ai-orb {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #FFD96B, var(--gold) 60%, #B57A0F);
+    box-shadow: 0 0 0 4px rgba(232,163,23,0.16);
+  }
+  .ai-header h4 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 16px; }
+  .ai-header span { font-size: 11px; color: var(--ink-mute); letter-spacing: 0.06em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+  .step-row {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 10px 0;
+  }
+  .step-row .check {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--teal); color: #fff;
+    display: grid; place-items: center;
+    font-size: 11px; flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-row.pending .check { background: var(--line); color: var(--ink-mute); }
+  .step-row.active .check { background: var(--gold); color: #1A1A1A; animation: pulse 1.5s infinite; }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(232,163,23,0.45); }
+    50% { box-shadow: 0 0 0 6px rgba(232,163,23,0); }
+  }
+  .step-row .body { flex: 1; }
+  .step-row .ttl { font-weight: 600; font-size: 13px; color: var(--ink); }
+  .step-row .det { font-size: 12px; color: var(--ink-mute); margin-top: 1px; }
+  .step-row .res { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--teal); margin-top: 4px; }
+
+  /* ---------- SCREEN 3: RESULTS ---------- */
+  .results-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 28px; }
+  .results-head h2 {
+    font-family: 'Fraunces', serif; font-weight: 600; font-size: 42px; line-height: 1.05; letter-spacing: -0.02em;
+  }
+  .results-head .sub { color: var(--ink-soft); margin-top: 6px; font-size: 14px; }
+  .meta-line { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-mute); letter-spacing: 0.08em; text-transform: uppercase; }
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .metric {
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 22px;
+  }
+  .metric .ml { font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+  .metric .mv {
+    font-family: 'Fraunces', serif; font-weight: 600; font-size: 36px;
+    margin-top: 12px; letter-spacing: -0.02em; line-height: 1;
+  }
+  .metric .mu { font-size: 13px; color: var(--ink-soft); margin-left: 6px; font-family: 'Manrope', sans-serif; font-weight: 500; }
+  .metric .mt { font-size: 12px; color: var(--teal); margin-top: 8px; font-weight: 600; }
+  .metric.accent { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .metric.accent .ml { color: #BFBFBF; }
+  .metric.accent .mt { color: var(--gold); }
+
+  .ppa-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; }
+  .ppa-card {
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 28px;
+  }
+  .ppa-card h3 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 22px; margin-bottom: 4px; letter-spacing: -0.01em; }
+  .ppa-card .h-sub { color: var(--ink-mute); font-size: 13px; margin-bottom: 18px; }
+  .ppa-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 12px 0; border-bottom: 1px dashed var(--line);
+  }
+  .ppa-row:last-child { border-bottom: 0; }
+  .ppa-row .k { color: var(--ink-soft); font-size: 14px; }
+  .ppa-row .v { font-family: 'Fraunces', serif; font-weight: 600; font-size: 18px; letter-spacing: -0.01em; }
+  .ppa-row .v small { font-family: 'Manrope', sans-serif; font-weight: 500; color: var(--ink-soft); font-size: 13px; margin-left: 4px; }
+  .savings-card {
+    background: var(--teal);
+    color: #fff;
+    border-radius: 16px; padding: 28px;
+    position: relative; overflow: hidden;
+  }
+  .savings-card::after {
+    content: ""; position: absolute; right: -40px; top: -40px;
+    width: 180px; height: 180px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,163,23,0.5), transparent 70%);
+  }
+  .savings-card h3 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 17px; margin-bottom: 8px; }
+  .savings-card .big {
+    font-family: 'Fraunces', serif; font-weight: 600; font-size: 56px; line-height: 1;
+    letter-spacing: -0.025em; margin: 14px 0 6px;
+  }
+  .savings-card .lbl { color: rgba(255,255,255,0.78); font-size: 13px; }
+  .savings-card .footnote { font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 18px; line-height: 1.5; }
+  .cta-row { display: flex; gap: 12px; margin-top: 22px; }
+  .btn-secondary {
+    background: transparent; color: var(--ink); border: 1px solid var(--ink);
+    padding: 13px 22px; border-radius: 10px;
+    font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 14px;
+    cursor: pointer;
+  }
+
+  /* ---------- SCREEN 4: CHAT ---------- */
+  .chat-grid { display: grid; grid-template-columns: 1fr 320px; gap: 24px; }
+  .chat-window {
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px;
+    overflow: hidden; display: flex; flex-direction: column;
+    min-height: 580px;
+  }
+  .chat-head {
+    padding: 18px 24px; border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .chat-head h4 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 17px; }
+  .chat-head .live {
+    margin-left: auto;
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-mute);
+  }
+  .chat-head .live .dot { width: 6px; height: 6px; border-radius: 50%; background: #2DD66E; }
+  .chat-body { padding: 24px; flex: 1; display: flex; flex-direction: column; gap: 16px; }
+  .msg { max-width: 78%; }
+  .msg.user { align-self: flex-end; }
+  .msg .bubble {
+    padding: 13px 16px; border-radius: 14px;
+    font-size: 14px; line-height: 1.55;
+  }
+  .msg.ai .bubble { background: #F5F0E6; color: var(--ink); border-bottom-left-radius: 4px; }
+  .msg.user .bubble { background: var(--ink); color: #fff; border-bottom-right-radius: 4px; }
+  .msg .who {
+    font-size: 11px; color: var(--ink-mute); margin-bottom: 4px;
+    text-transform: uppercase; letter-spacing: 0.1em; font-family: 'JetBrains Mono', monospace;
+  }
+  .msg.user .who { text-align: right; }
+  .chat-input {
+    border-top: 1px solid var(--line); padding: 14px 16px;
+    display: flex; gap: 10px; align-items: center; background: #FAF7F1;
+  }
+  .chat-input input {
+    flex: 1; border: 0; background: transparent; outline: none;
+    font-family: 'Manrope', sans-serif; font-size: 14px; color: var(--ink);
+  }
+  .chat-send { background: var(--red); color: #fff; border: 0; border-radius: 8px; padding: 8px 14px; font-weight: 600; cursor: pointer; }
+  .ctx-card {
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 22px;
+  }
+  .ctx-card h5 {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-mute);
+    text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px;
+  }
+  .ctx-card .item { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px dashed var(--line); font-size: 13px; }
+  .ctx-card .item:last-child { border-bottom: 0; }
+  .ctx-card .item .k { color: var(--ink-soft); }
+  .ctx-card .item .v { font-weight: 600; color: var(--ink); }
+  .handoff-card {
+    margin-top: 14px;
+    background: var(--ink); color: #fff;
+    border-radius: 16px; padding: 22px;
+  }
+  .handoff-card h5 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 16px; margin-bottom: 4px; }
+  .handoff-card p { font-size: 13px; color: #BFBFBF; line-height: 1.5; }
+  .handoff-card .who-list {
+    margin-top: 14px; padding-top: 14px; border-top: 1px solid #2A2A2A;
+    display: grid; gap: 8px; font-size: 12px; color: #DDD;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .handoff-card .who-list span::before { content: "→ "; color: var(--gold); }
+
+  /* footer */
+  footer { background: var(--ink); color: #BFBFBF; padding: 36px 0; font-size: 13px; }
+  footer .container { display: flex; justify-content: space-between; align-items: center; }
+  footer .copy { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; }
+
+  /* labels for screen anchors */
+  .anchor {
+    display: inline-block;
+    background: var(--ink); color: var(--gold);
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    padding: 4px 10px; border-radius: 4px; letter-spacing: 0.1em;
+    margin-right: 10px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============== TOP NAV ============== -->
+<div class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <div class="brand-mark">S</div>
+      <div>
+        <span class="brand-text">SolarSense AI</span>
+        <span class="brand-sub">by SolarSense</span>
+      </div>
+    </div>
+    <div class="nav-pills">
+      <a class="pill active" href="#screen-1">Get Quote</a>
+      <a class="pill" href="#screen-3">Results</a>
+      <a class="pill" href="#screen-4">AI Advisor</a>
+      <span class="badge">Prototype</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============== SCREEN 1 — INPUT ============== -->
+<section id="screen-1" class="screen">
+  <div class="container">
+    <div class="screen-tag"><span class="anchor">SCREEN 01</span> ASK SOLARSENSE AI · LIVE ADVISOR</div>
+
+    <div style="max-width: 760px; margin: 0 auto; text-align: center;">
+      <h1 style="font-family:'Fraunces',serif; font-size:64px; line-height:1.02; letter-spacing:-0.02em; font-weight:600;">
+        Ask SolarSense AI<br/>
+        <em style="font-style:italic; color:var(--red); font-weight:500;">anything.</em>
+      </h1>
+      <p class="lead" style="margin: 24px auto 32px; max-width: 560px; font-size: 17px; color: var(--ink-soft);">
+        Solar PPA quotes, rooftop analysis, ESG impact narratives, CFO briefs — answers in seconds, grounded on SolarSense's solar engineering and Singapore's live grid tariff.
+      </p>
+
+      <!-- Direct prompt input -->
+      <div style="position: relative; max-width: 640px; margin: 0 auto;">
+        <textarea id="hero-input" rows="3"
+          placeholder="e.g. I have a 2,000 m² rooftop on a industrial site at Sin Ming — quote me a PPA"
+          style="width:100%; padding:20px 24px; border:1px solid var(--line); border-radius:14px; background:#fff; font-family:'Manrope',sans-serif; font-size:16px; line-height:1.5; color:var(--ink); outline:none; resize:vertical; box-shadow: 0 1px 0 rgba(0,0,0,0.02), 0 24px 48px -28px rgba(20,20,20,0.18);"></textarea>
+        <button id="hero-send" class="btn-primary" style="margin-top: 14px; max-width: 360px;">
+          Ask SolarSense AI <span class="arrow">→</span>
+        </button>
+      </div>
+
+      <!-- Suggested prompts -->
+      <div style="margin-top: 32px;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-mute); text-transform:uppercase; letter-spacing:0.12em; margin-bottom:14px;">
+          Or try one of these
+        </div>
+        <div id="suggestion-chips" style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; max-width: 720px; margin: 0 auto;">
+          <button class="suggest-chip" data-prompt="TEST ME - Quote for 160 Sin Ming Dr, Singapore 575722">
+            TEST ME &mdash; Quote for 160 Sin Ming Dr, Singapore 575722
+          </button>
+          <button class="suggest-chip" data-prompt="I'm at 6 Battery Road, Singapore 049909. Grade-A office tower, monthly bill around S$280,000. Quote me a solar PPA &mdash; and walk me through how confident you are in the numbers.">
+            I'm at 6 Battery Road, Singapore 049909. Grade-A office tower, monthly bill around S$280,000. Quote me a solar PPA &mdash; and walk me through how confident you are in the numbers.
+          </button>
+          <button class="suggest-chip" data-prompt="How are you calculating my PPA tariff and savings?">
+            How are you calculating my PPA tariff and savings?
+          </button>
+          <button class="suggest-chip" data-prompt="Draft a CFO brief I can send internally">
+            Draft a CFO brief I can send internally
+          </button>
+          <button class="suggest-chip" data-prompt="How does this affect our Scope 2 reporting?">
+            How does this affect our Scope 2 reporting?
+          </button>
+        </div>
+      </div>
+
+      <!-- Compact stats row -->
+      <div class="stat-row" style="margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--line); justify-content: center; gap: 56px;">
+        <div class="stat">
+          <div class="num">14&thinsp;min</div>
+          <div class="lbl">Avg. quote time</div>
+        </div>
+        <div class="stat">
+          <div class="num">S$0</div>
+          <div class="lbl">Upfront cost</div>
+        </div>
+        <div class="stat">
+          <div class="num">15%</div>
+          <div class="lbl">Tariff discount vs grid</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Suggestion chip styling */
+  .suggest-chip {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color .15s, background .15s, transform .15s;
+  }
+  .suggest-chip:hover {
+    border-color: var(--ink);
+    background: #FAF7F1;
+    transform: translateY(-1px);
+  }
+  #hero-input:focus { border-color: var(--ink); }
+</style>
+
+<!-- ============== SCREEN 2 — ANALYSIS ============== -->
+<section id="screen-2" class="screen">
+  <div class="container">
+    <div class="screen-tag"><span class="anchor">SCREEN 02</span> AI IN ACTION · DECISION-MAKING LAYER</div>
+    <div class="results-head" style="margin-bottom: 24px;">
+      <div>
+        <h2 style="font-size: 32px;">Reading your rooftop…</h2>
+        <div class="sub">Computer vision, irradiance modelling, and credit assessment running in parallel.</div>
+      </div>
+      <div class="meta-line">Job ID · #SS-2026-04891 · 8 May 2026</div>
+    </div>
+
+    <div class="analysis-grid">
+      <div class="map-frame">
+        <div class="map-overlay-top">
+          <div class="map-chip"><span class="dot"></span> SATELLITE LIVE · 160 SIN MING DRIVE</div>
+          <div class="map-chip">CV CONFIDENCE 94.2%</div>
+        </div>
+        <!-- Stylised satellite rooftop map -->
+        <svg class="map-svg" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#0c2030" stroke-width="0.5"/>
+            </pattern>
+            <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1a3a52"/>
+              <stop offset="100%" stop-color="#0e2233"/>
+            </linearGradient>
+            <pattern id="panels" width="14" height="9" patternUnits="userSpaceOnUse">
+              <rect width="14" height="9" fill="#1a4a8c"/>
+              <rect x="0" y="0" width="6.5" height="4" fill="#2a6db8" opacity="0.85"/>
+              <rect x="7" y="0" width="6.5" height="4" fill="#2a6db8" opacity="0.85"/>
+              <rect x="0" y="4.5" width="6.5" height="4" fill="#2a6db8" opacity="0.85"/>
+              <rect x="7" y="4.5" width="6.5" height="4" fill="#2a6db8" opacity="0.85"/>
+            </pattern>
+          </defs>
+          <rect width="800" height="600" fill="url(#bg)"/>
+          <rect width="800" height="600" fill="url(#grid)" opacity="0.4"/>
+          <!-- roads -->
+          <rect x="0" y="500" width="800" height="40" fill="#1c1c1c"/>
+          <rect x="0" y="515" width="800" height="2" fill="#FFD24A" opacity="0.6"/>
+          <rect x="60" y="0" width="40" height="600" fill="#1c1c1c"/>
+          <!-- adjacent buildings -->
+          <rect x="120" y="60" width="160" height="100" fill="#3d4a5e"/>
+          <rect x="600" y="60" width="160" height="80" fill="#3d4a5e"/>
+          <rect x="120" y="380" width="120" height="90" fill="#3d4a5e"/>
+          <rect x="640" y="400" width="120" height="80" fill="#3d4a5e"/>
+          <!-- main warehouse roof outline -->
+          <rect x="180" y="180" width="480" height="200" fill="#5a6275" stroke="#222" stroke-width="2"/>
+          <!-- detected solar area (highlighted) -->
+          <g>
+            <rect x="200" y="200" width="200" height="160" fill="url(#panels)" opacity="0.95"/>
+            <rect x="420" y="200" width="220" height="80" fill="url(#panels)" opacity="0.95"/>
+            <rect x="420" y="290" width="100" height="70" fill="url(#panels)" opacity="0.95"/>
+          </g>
+          <!-- obstructions -->
+          <circle cx="555" cy="320" r="20" fill="#888" stroke="#333" stroke-width="1.5"/>
+          <circle cx="600" cy="335" r="14" fill="#888" stroke="#333" stroke-width="1.5"/>
+          <rect x="635" y="305" width="20" height="30" fill="#777" stroke="#333" stroke-width="1.5"/>
+          <!-- detection polygon outline -->
+          <polygon points="200,200 400,200 400,360 200,360"
+                   fill="none" stroke="#E8A317" stroke-width="2.5" stroke-dasharray="6,4"/>
+          <polygon points="420,200 640,200 640,280 520,280 520,360 420,360"
+                   fill="none" stroke="#E8A317" stroke-width="2.5" stroke-dasharray="6,4"/>
+          <!-- label callouts -->
+          <g font-family="JetBrains Mono, monospace" font-size="11" fill="#fff">
+            <rect x="210" y="208" width="78" height="20" rx="3" fill="#E8A317"/>
+            <text x="216" y="222" fill="#1A1A1A" font-weight="700">ZONE A · 920m²</text>
+            <rect x="430" y="208" width="78" height="20" rx="3" fill="#E8A317"/>
+            <text x="436" y="222" fill="#1A1A1A" font-weight="700">ZONE B · 740m²</text>
+            <text x="555" y="298" font-size="9" fill="#FF7373" text-anchor="middle">HVAC excluded</text>
+          </g>
+          <!-- compass -->
+          <g transform="translate(720,470)">
+            <circle r="32" fill="rgba(255,255,255,0.92)"/>
+            <text y="-18" text-anchor="middle" font-family="Fraunces, serif" font-size="12" font-weight="700" fill="#1A1A1A">N</text>
+            <path d="M 0,-12 L 4,4 L 0,0 L -4,4 Z" fill="#D7202B"/>
+          </g>
+        </svg>
+        <div class="map-corner">
+          <b>Detected: 1,660 m²</b> · usable rooftop · ~290 kWp
+        </div>
+      </div>
+
+      <div class="ai-panel">
+        <div class="ai-header">
+          <div class="ai-orb"></div>
+          <div>
+            <h4>SolarSense AI</h4>
+            <div><span>Decision pipeline</span></div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="check">✓</div>
+          <div class="body">
+            <div class="ttl">Building footprint detected</div>
+            <div class="det">Vertex AI Vision · Maxar 30 cm imagery</div>
+            <div class="res">Building area: 2,140 m² · Confidence 96%</div>
+          </div>
+        </div>
+        <div class="step-row">
+          <div class="check">✓</div>
+          <div class="body">
+            <div class="ttl">Usable area segmented</div>
+            <div class="det">Excluded HVAC, skylights, walkway setbacks</div>
+            <div class="res">Usable: 1,660 m² · 2 zones identified</div>
+          </div>
+        </div>
+        <div class="step-row">
+          <div class="check">✓</div>
+          <div class="body">
+            <div class="ttl">Solar yield modelled</div>
+            <div class="det">NASA POWER + 3D shading · 8,760 hourly steps</div>
+            <div class="res">Annual yield: 384 MWh · PR 82.4%</div>
+          </div>
+        </div>
+        <div class="step-row active">
+          <div class="check">●</div>
+          <div class="body">
+            <div class="ttl">Credit &amp; PPA tariff scoring</div>
+            <div class="det">ACRA registry · ML credit model · tariff optimiser</div>
+            <div class="res" style="color: var(--gold);">Running… ~6s</div>
+          </div>
+        </div>
+        <div class="step-row pending">
+          <div class="check">·</div>
+          <div class="body">
+            <div class="ttl">Drafting personalised proposal</div>
+            <div class="det">GenAI · ESG narrative · 3D rendering</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SCREEN 3 — RESULTS ============== -->
+<section id="screen-3" class="screen">
+  <div class="container">
+    <div class="screen-tag"><span class="anchor">SCREEN 03</span> CUSTOMER RESULTS · PPA OFFER</div>
+    <div class="results-head">
+      <div>
+        <h2><span id="r-company">Asia Logistics Hub</span><br/>can lock in <span id="r-lifetime">S$362k</span>.</h2>
+        <div class="sub">Across a 20-year SolarSense PPA, with 2% annual escalation. Zero upfront capital. AI-confidence 91%.</div>
+        <div class="sub" style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; color:var(--ink-mute); margin-top:6px;">SITE · <span id="r-address">160 SIN MING DRIVE, SINGAPORE 575722</span></div>
+      </div>
+      <div class="meta-line">Quote ref · <span id="r-quoteref">SS-2026-04891</span> · valid 30 days</div>
+    </div>
+
+    <div class="results-grid">
+      <div class="metric">
+        <div class="ml">System size</div>
+        <div class="mv"><span id="r-kwp">290</span><span class="mu">kWp</span></div>
+        <div class="mt">↓ <span id="r-roofarea">1,660</span> m² rooftop coverage</div>
+      </div>
+      <div class="metric">
+        <div class="ml">Annual generation</div>
+        <div class="mv"><span id="r-genmwh">384</span><span class="mu">MWh</span></div>
+        <div class="mt">↑ <span id="r-selfconsumption">95%</span> self-consumed</div>
+      </div>
+      <div class="metric">
+        <div class="ml">CO₂ avoided / yr</div>
+        <div class="mv"><span id="r-co2">157</span><span class="mu">tCO₂e</span></div>
+        <div class="mt">↑ Scope 2 reduction</div>
+      </div>
+      <div class="metric accent">
+        <div class="ml">Year-1 saving</div>
+        <div class="mv"><span id="r-yr1saving">S$15k</span><span class="mu" style="color:#BFBFBF;"></span></div>
+        <div class="mt">15% off solar kWh delivered</div>
+      </div>
+    </div>
+
+    <div class="ppa-grid">
+      <div class="ppa-card">
+        <h3>Your SolarSense PPA terms</h3>
+        <div class="h-sub">Indicative — final terms confirmed after site visit and credit check.</div>
+        <div class="ppa-row">
+          <div class="k">PPA tariff (Year 1)</div>
+          <div class="v">S$<span id="r-ppatariff">0.231</span><small>/kWh</small></div>
+        </div>
+        <div class="ppa-row">
+          <div class="k">Grid reference (SP, Q2 26)</div>
+          <div class="v">S$0.273<small>/kWh excl GST</small></div>
+        </div>
+        <div class="ppa-row">
+          <div class="k">Discount vs grid</div>
+          <div class="v" style="color: var(--teal);">15.0%</div>
+        </div>
+        <div class="ppa-row">
+          <div class="k">Tenor</div>
+          <div class="v">20 <small>years</small></div>
+        </div>
+        <div class="ppa-row">
+          <div class="k">Upfront cost to you</div>
+          <div class="v" style="color: var(--teal);">S$0</div>
+        </div>
+        <div class="ppa-row">
+          <div class="k">SolarSense scope</div>
+          <div class="v">Design · Install · Own · O&amp;M</div>
+        </div>
+        <div class="ppa-row">
+          <div class="k">RECs &amp; ESG report</div>
+          <div class="v">Included</div>
+        </div>
+        <div class="cta-row">
+          <button class="btn-primary" style="width:auto;">Accept &amp; book site visit →</button>
+          <button id="btn-ask-ai" class="btn-secondary">Ask SolarSense AI</button>
+        </div>
+      </div>
+
+      <div class="savings-card">
+        <h3>20-year impact</h3>
+        <div class="big" id="r-bigsaving">S$362k</div>
+        <div class="lbl">Net lifetime savings (2% escalation)</div>
+        <div class="footnote">
+          ↑ <span id="r-lifetimemwh">7,680</span> MWh of renewable generation<br/>
+          ↑ <span id="r-lifetimeco2">3,140</span> tCO₂e avoided<br/>
+          ↑ Roughly 1–5% reduction on total grid spend
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SCREEN 4 — CHAT ============== -->
+<section id="screen-4" class="screen">
+  <div class="container">
+    <div class="screen-tag"><span class="anchor">SCREEN 04</span> AI ADVISOR · COLLABORATION + CREATIVITY LAYER</div>
+    <div class="results-head" style="margin-bottom: 24px;">
+      <div>
+        <h2 style="font-size: 32px;">Talk to your<br/>SolarSense Advisor.</h2>
+        <div class="sub">A retrieval-augmented agent with full access to your quote, our engineering library, and SolarSense's PPA playbook.</div>
+      </div>
+    </div>
+
+    <div class="chat-grid">
+      <div class="chat-window">
+        <div class="chat-head">
+          <div class="ai-orb" style="width:24px;height:24px;"></div>
+          <h4>SolarSense AI Advisor</h4>
+          <div class="live"><span class="dot"></span>ONLINE · GROUNDED ON QUOTE <span id="r-quoterefshort">#04891</span></div>
+        </div>
+        <div class="chat-body">
+          <div class="msg ai">
+            <div class="who">SolarSense AI</div>
+            <div class="bubble" id="chat-opening">
+              Hi — I've finished analysing your Sin Ming site. You have a strong rooftop: 1,660 m² of usable area, no significant shading, and your monthly bill profile fits a PPA well. What would you like to dig into first — the savings, the contract, or the install timeline?
+            </div>
+          </div>
+          <div class="msg user">
+            <div class="who">You</div>
+            <div class="bubble">
+              Honestly the 20-year tenor feels long. What if our business changes? Can we exit early?
+            </div>
+          </div>
+          <div class="msg ai">
+            <div class="who">SolarSense AI</div>
+            <div class="bubble" id="chat-buyout">
+              Fair concern. Three options exist in our standard PPA: <b>(1) Buyout</b> — you can purchase the system at a pre-agreed schedule from Year 7 onwards (typical buyout in Year 10 ≈ S$140k for your size). <b>(2) Novation</b> — if you sell or move, we transfer the PPA to the new occupier, no penalty. <b>(3) Termination</b> — only as a last resort, with a fee equal to the discounted remaining cashflows. Most clients choose novation. Want me to draft a one-pager comparing these for your CFO?
+            </div>
+          </div>
+          <div class="msg user">
+            <div class="who">You</div>
+            <div class="bubble">Yes — and add the ESG numbers for our annual report.</div>
+          </div>
+          <div class="msg ai">
+            <div class="who">SolarSense AI</div>
+            <div class="bubble" id="chat-esg">
+              On it. I'm drafting a 2-page CFO brief plus an ESG appendix with your Scope 2 reduction (157 tCO₂e/yr), CDP-aligned disclosure language, and a chart of your 20-year carbon trajectory. I've also flagged your account to <b>Lina (Sales)</b> and <b>Ravi (Engineering)</b> so they'll be ready when you book the site visit. Sending the brief to your inbox in ~30 seconds.
+            </div>
+          </div>
+        </div>
+        <div class="chat-input">
+          <input id="chat-input-box" type="text" placeholder="Ask anything about your quote, the PPA, or the install…" />
+          <button id="btn-chat-send" class="chat-send">Open in ChatGPT →</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="ctx-card">
+          <h5>Agent context</h5>
+          <div class="item"><span class="k">Account</span><span class="v" id="ctx-account">Asia Logistics Hub</span></div>
+          <div class="item"><span class="k">Quote ref</span><span class="v" id="ctx-quoteref">#SS-2026-04891</span></div>
+          <div class="item"><span class="k">System</span><span class="v" id="ctx-system">290 kWp</span></div>
+          <div class="item"><span class="k">PPA tariff</span><span class="v" id="ctx-tariff">S$0.231/kWh</span></div>
+          <div class="item"><span class="k">AI confidence</span><span class="v">91%</span></div>
+        </div>
+        <div class="handoff-card">
+          <h5>Live handoffs</h5>
+          <p>Agent has dispatched briefs to internal stakeholders:</p>
+          <div class="who-list">
+            <span>Lina · Sales (CRM updated)</span>
+            <span>Ravi · Engineering (site visit ticket)</span>
+            <span>Yusoff · Credit (PPA risk memo)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="brand" style="color:#fff;">
+      <div class="brand-mark">S</div>
+      <div>
+        <span class="brand-text" style="color:#fff;">SolarSense AI</span>
+        <span class="brand-sub">SolarSense · Prototype</span>
+      </div>
+    </div>
+    <div class="copy">© 2026 · Built for course assignment · Powered by Vertex AI &amp; Anthropic Claude</div>
+  </div>
+</footer>
+
+<script>
+// ============================================================
+// SolarSense AI — Live Pricing Engine
+// Mirrors the same formulas the Custom GPT uses (see SolarSense_Pricing_Engine.md)
+// ============================================================
+
+// CONFIGURATION — EDIT THIS LINE with your deployed Custom GPT URL
+const CHATGPT_URL = 'https://chatgpt.com/g/g-6a07c65be1a88191854134acbe8ec3b1-solarsense-ai-advisor';
+
+const PRICING = {
+  USABLE_AREA_FRACTION: 0.65,        // Step 1: 65% of total roof is usable
+  PANEL_DENSITY_KWP_PER_M2: 0.180,   // Step 1: Tier-1 panel density 180 W/m²
+  YIELD_KWH_PER_KWP: 1300,           // Step 2: Singapore specific yield
+  GRID_TARIFF: 0.2727,               // Step 4: SP Group Q2 2026, excl GST
+  PPA_DISCOUNT: 0.15,                // Step 5: PPA is 15% below grid
+  ESCALATION_ANNUITY_20YR: 24.30,    // Step 7: 2% annual growth, 20 yrs
+  CO2_FACTOR_TCO2_PER_KWH: 0.000408, // Step 8: Singapore grid emission factor
+  SELF_CONSUMPTION: {                // Step 3: industry defaults
+    'logistics':     0.95,
+    'manufacturing': 0.95,
+    'data-center':   0.95,
+    'retail':        0.75,
+    'office':        0.60,
+    'mixed':         0.75
+  },
+  ROOF_DEFAULTS_M2: {                // Used if customer leaves rooftop blank
+    'logistics':     2000,
+    'manufacturing': 1500,
+    'data-center':   1000,
+    'retail':         800,
+    'office':         600,
+    'mixed':         1200
+  }
+};
+
+function calculateQuote(inputs) {
+  const totalRoof = inputs.rooftopM2 || PRICING.ROOF_DEFAULTS_M2[inputs.industry] || 1200;
+  const usableArea = totalRoof * PRICING.USABLE_AREA_FRACTION;
+  const systemKwp = Math.round(usableArea * PRICING.PANEL_DENSITY_KWP_PER_M2 / 10) * 10;
+  const generationKwh = systemKwp * PRICING.YIELD_KWH_PER_KWP;
+  const selfConsumption = PRICING.SELF_CONSUMPTION[inputs.industry] || 0.75;
+  const consumedKwh = generationKwh * selfConsumption;
+
+  const ppaTariff = PRICING.GRID_TARIFF * (1 - PRICING.PPA_DISCOUNT);
+  const annualSaving = consumedKwh * (PRICING.GRID_TARIFF - ppaTariff);
+  const lifetimeSaving = annualSaving * PRICING.ESCALATION_ANNUITY_20YR;
+  const annualCO2 = generationKwh * PRICING.CO2_FACTOR_TCO2_PER_KWH;
+
+  // Year-10 buyout ≈ 50% of CAPEX. CAPEX assumed S$900/kWp.
+  const year10Buyout = systemKwp * 900 * 0.50;
+
+  return {
+    company: inputs.company,
+    address: inputs.address,
+    industry: inputs.industry,
+    monthlyBill: inputs.monthlyBill,
+    totalRoof: Math.round(totalRoof),
+    usableArea: Math.round(usableArea),
+    systemKwp,
+    generationKwh: Math.round(generationKwh),
+    generationMwh: Math.round(generationKwh / 1000),
+    selfConsumption,
+    consumedKwh: Math.round(consumedKwh),
+    ppaTariff: ppaTariff.toFixed(3),
+    annualSaving: Math.round(annualSaving),
+    lifetimeSaving: Math.round(lifetimeSaving),
+    annualCO2: Math.round(annualCO2),
+    lifetimeMwh: Math.round(generationKwh * 20 / 1000),
+    lifetimeCO2: Math.round(annualCO2 * 20),
+    year10Buyout: Math.round(year10Buyout / 1000) * 1000,
+    quoteRef: 'SS-' + new Date().getFullYear() + '-' + Math.floor(Math.random() * 90000 + 10000)
+  };
+}
+
+// ============================================================
+// DOM UPDATES — paints the calculated quote into every screen
+// ============================================================
+
+function fmtMoney(n) {
+  if (n >= 1000000) return 'S$' + (n / 1000000).toFixed(1) + 'M';
+  if (n >= 1000)    return 'S$' + Math.round(n / 1000) + 'k';
+  return 'S$' + Math.round(n);
+}
+function fmtNum(n) { return n.toLocaleString('en-SG'); }
+
+function paintResults(q) {
+  // Screen 3 — header
+  document.getElementById('r-company').textContent = q.company;
+  document.getElementById('r-lifetime').textContent = fmtMoney(q.lifetimeSaving);
+  document.getElementById('r-quoteref').textContent = q.quoteRef;
+  document.getElementById('r-quoterefshort').textContent = '#' + q.quoteRef.split('-').slice(-1)[0];
+  document.getElementById('r-address').textContent = q.address.toUpperCase();
+
+  // Screen 3 — metrics
+  document.getElementById('r-kwp').textContent = q.systemKwp;
+  document.getElementById('r-roofarea').textContent = fmtNum(q.usableArea);
+  document.getElementById('r-genmwh').textContent = q.generationMwh;
+  document.getElementById('r-selfconsumption').textContent = Math.round(q.selfConsumption * 100) + '%';
+  document.getElementById('r-co2').textContent = q.annualCO2;
+  document.getElementById('r-yr1saving').textContent = fmtMoney(q.annualSaving);
+
+  // Screen 3 — PPA terms
+  document.getElementById('r-ppatariff').textContent = q.ppaTariff;
+  document.getElementById('r-bigsaving').textContent = fmtMoney(q.lifetimeSaving);
+  document.getElementById('r-lifetimemwh').textContent = fmtNum(q.lifetimeMwh);
+  document.getElementById('r-lifetimeco2').textContent = fmtNum(q.lifetimeCO2);
+
+  // Screen 4 — agent context
+  document.getElementById('ctx-account').textContent = q.company.length > 24 ? q.company.slice(0, 22) + '…' : q.company;
+  document.getElementById('ctx-quoteref').textContent = '#' + q.quoteRef;
+  document.getElementById('ctx-system').textContent = q.systemKwp + ' kWp';
+  document.getElementById('ctx-tariff').textContent = 'S$' + q.ppaTariff + '/kWh';
+
+  // Screen 4 — chat bubbles re-personalised
+  document.getElementById('chat-opening').innerHTML =
+    "Hi — I've finished analysing your site. You have a strong rooftop: <b>" + fmtNum(q.usableArea) + " m² of usable area</b>, " +
+    "yielding around <b>" + q.generationMwh + " MWh/year</b>. Your Year-1 saving comes to <b>" + fmtMoney(q.annualSaving) + "</b>, " +
+    "with <b>" + fmtMoney(q.lifetimeSaving) + "</b> over the 20-year tenor. " +
+    "What would you like to dig into first — the savings, the contract, or the install timeline?";
+
+  document.getElementById('chat-buyout').innerHTML =
+    "Fair concern. Three options exist in our standard PPA: <b>(1) Buyout</b> — you can purchase the system at a pre-agreed schedule from Year 7 onwards " +
+    "(typical buyout in Year 10 ≈ <b>" + fmtMoney(q.year10Buyout) + "</b> for your size). " +
+    "<b>(2) Novation</b> — if you sell or move, we transfer the PPA to the new occupier, no penalty. " +
+    "<b>(3) Termination</b> — only as a last resort, with a fee equal to the discounted remaining cashflows. Most clients choose novation. " +
+    "Want me to draft a one-pager comparing these for your CFO?";
+
+  document.getElementById('chat-esg').innerHTML =
+    "On it. I'm drafting a 2-page CFO brief plus an ESG appendix with your Scope 2 reduction (<b>" + q.annualCO2 + " tCO₂e/yr</b>), " +
+    "CDP-aligned disclosure language, and a chart of your 20-year carbon trajectory. " +
+    "I've also flagged your account to <b>Lina (Sales)</b> and <b>Ravi (Engineering)</b> so they'll be ready when you book the site visit. " +
+    "Sending the brief to your inbox in ~30 seconds.";
+}
+
+// ============================================================
+// FORM HANDLERS
+// ============================================================
+
+function parseNumberInput(value) {
+  if (!value) return 0;
+  return parseFloat(String(value).replace(/[^0-9.]/g, '')) || 0;
+}
+
+// Demo values used to populate Screens 2/3/4 (the form is gone — chat is the primary entry point now)
+const DEMO_INPUTS = {
+  company:     'Asia Logistics Hub Pte Ltd',
+  address:     '160 Sin Ming Drive, Singapore 575722',
+  industry:    'logistics',
+  rooftopM2:   2560,
+  monthlyBill: 84000
+};
+
+function computeAndPaint() {
+  paintResults(calculateQuote(DEMO_INPUTS));
+}
+
+function openChatGPT(prefilledMessage) {
+  if (CHATGPT_URL.includes('REPLACE_WITH_YOUR_GPT_ID')) {
+    alert('Edit the CHATGPT_URL constant at the top of the <script> tag with your deployed Custom GPT URL.');
+    return;
+  }
+  // ChatGPT supports a ?q= query parameter to prefill the first message
+  const url = prefilledMessage
+    ? CHATGPT_URL + '?q=' + encodeURIComponent(prefilledMessage)
+    : CHATGPT_URL;
+  window.open(url, '_blank');
+}
+
+// ============================================================
+// WIRE UP BUTTONS
+// ============================================================
+
+// Hero — primary chat entry point
+document.getElementById('hero-send').addEventListener('click', () => {
+  const msg = document.getElementById('hero-input').value.trim();
+  openChatGPT(msg || 'Walk me through how SolarSense AI works');
+});
+
+// Enter key submits, Shift+Enter inserts newline
+document.getElementById('hero-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    document.getElementById('hero-send').click();
+  }
+});
+
+// Suggestion chips — populate input and submit immediately
+document.querySelectorAll('.suggest-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const prompt = chip.getAttribute('data-prompt');
+    document.getElementById('hero-input').value = prompt;
+    openChatGPT(prompt);
+  });
+});
+
+// Screen 3 "Ask SolarSense AI" button — opens chat with no prefill
+document.getElementById('btn-ask-ai').addEventListener('click', () => openChatGPT());
+
+// Screen 4 chat send button — passes typed text or a default prompt
+document.getElementById('btn-chat-send').addEventListener('click', () => {
+  const msg = document.getElementById('chat-input-box').value.trim();
+  openChatGPT(msg || 'Walk me through my feasibility report');
+});
+document.getElementById('chat-input-box').addEventListener('keypress', e => {
+  if (e.key === 'Enter') document.getElementById('btn-chat-send').click();
+});
+
+// Paint demo numbers into Screens 2/3/4 on page load — no scroll
+computeAndPaint();
+</script>
+
+</body>
+</html>
